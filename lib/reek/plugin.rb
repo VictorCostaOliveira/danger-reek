@@ -16,16 +16,16 @@ module Danger
   class DangerReek < Plugin
     # Runs Ruby files through Reek.
     # @return [Array<Reek::SmellWarning, nil>]
-    def lint
-      files_to_lint = fetch_files_to_lint
-      code_smells   = run_linter(files_to_lint)
+    def lint(files = nil ,reek_rules_path = nil)
+      files_to_lint = files || fetch_files_to_lint
+      code_smells   = run_linter(files_to_lint, reek_rules_path)
       warn_each_line(code_smells)
     end
 
     private
 
-    def run_linter(files_to_lint)
-      configuration = ::Reek::Configuration::AppConfiguration.from_path(nil)
+    def run_linter(files_to_lint, reek_rules_path)
+      configuration = ::Reek::Configuration::AppConfiguration.from_path(reek_rules_path)
       files_to_lint.flat_map do |file|
         examiner = ::Reek::Examiner.new(file, configuration: configuration)
         examiner.smells
