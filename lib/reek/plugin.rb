@@ -33,7 +33,6 @@ module Danger
     end
 
     def fetch_files_to_lint(files)
-      raise "Error"
       to_lint = (files ? Dir.glob(files) : (git.modified_files + git.added_files))
       ::Reek::Source::SourceLocator.new(to_lint).sources
     end
