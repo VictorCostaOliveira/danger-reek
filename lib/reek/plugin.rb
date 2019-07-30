@@ -33,9 +33,6 @@ module Danger
     end
 
     def fetch_files_to_lint(files)
-      unless files
-        files = git.modified_files + git.added_files
-      end
       reek_source_locator(files)
     end
 
