@@ -33,8 +33,8 @@ module Danger
     end
 
     def fetch_files_to_lint(files)
-      # files = git.modified_files + git.added_files
-      ::Reek::Source::SourceLocator.new(files).sources
+      to_lint = (files ? Dir.glob(files) : (git.modified_files + git.added_files))
+      ::Reek::Source::SourceLocator.new(Shellwords.join(to_lint)).sources
     end
 
     def warn_each_line(code_smells)
